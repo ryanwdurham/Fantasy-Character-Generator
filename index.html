@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fantasy Character Creator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #a0a0a0;
+            font-size: 1.1em;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .creator-panel, .preview-panel {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 1.3em;
+            color: #feca57;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid rgba(254, 202, 87, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #48dbfb;
+            font-weight: 500;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        input[type="text"]:focus, select:focus {
+            outline: none;
+            border-color: #48dbfb;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        select option {
+            background: #1a1a2e;
+            color: #fff;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        button {
+            flex: 1;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .generate-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a6f);
+            color: white;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .randomize-btn {
+            background: linear-gradient(45deg, #48dbfb, #0abde3);
+            color: white;
+        }
+
+        .randomize-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(72, 219, 251, 0.4);
+        }
+
+        .download-btn {
+            background: linear-gradient(45deg, #feca57, #ff9ff3);
+            color: #1a1a2e;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(254, 202, 87, 0.4);
+        }
+
+        .character-display {
+            text-align: center;
+        }
+
+        .portrait-container {
+            width: 100%;
+            aspect-ratio: 3/4;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .portrait-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .placeholder {
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        .character-info {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 3px solid #feca57;
+        }
+
+        .stat-label {
+            color: #48dbfb;
+            font-size: 0.9em;
+            margin-bottom: 3px;
+        }
+
+        .stat-value {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .bio-section {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            line-height: 1.6;
+        }
+
+        .abilities-section {
+            margin-top: 15px;
+        }
+
+        .ability-item {
+            background: rgba(255, 107, 107, 0.2);
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border-left: 3px solid #ff6b6b;
+        }
+
+        .loading {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #48dbfb;
+            font-size: 1.2em;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #48dbfb;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 968px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+
+        .error-message {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid #ff6b6b;
+            display: none;
+        }
+
+        .error-message.active {
+            display: block;
+        }
+
+        .weapon-description, .companion-description {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(72, 219, 251, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid #48dbfb;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚔️ Fantasy Character Creator ⚔️</h1>
+            <p class="subtitle">Forge your legendary hero and bring them to life</p>
+        </header>
+
+        <div class="main-content">
+            <div class="creator-panel">
+                <div class="section">
+                    <h2 class="section-title">Basic Information</h2>
+                    <div class="form-group">
+                        <label>Character Name</label>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="text" id="charName" placeholder="Enter name or leave blank for auto-generation" style="flex: 1;">
+                            <button onclick="generateRandomName()" style="padding: 12px 20px; background: linear-gradient(45deg, #ff9ff3, #feca57); color: #1a1a2e; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; white-space: nowrap;">🎲 Random Name</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <select id="gender">
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="neutral">Neutral/Androgynous</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Race</label>
+                        <select id="race">
+                            <option value="human">Human</option>
+                            <option value="elf">High Elf</option>
+                            <option value="dark-elf">Dark Elf</option>
+                            <option value="forest-elf">Forest Elf</option>
+                            <option value="dwarf">Dwarf</option>
+                            <option value="orc">Orc</option>
+                            <option value="tiefling">Tiefling</option>
+                            <option value="dragonborn">Dragonborn</option>
+                            <option value="undead">Undead</option>
+                            <option value="goblin">Goblin</option>
+                            <option value="minotaur">Minotaur</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Class</label>
+                        <select id="class">
+                            <option value="warrior">Warrior</option>
+                            <option value="rogue">Rogue</option>
+                            <option value="paladin">Paladin</option>
+                            <option value="ranger">Ranger</option>
+                            <option value="mage">Mage</option>
+                            <option value="warlock">Warlock</option>
+                            <option value="cleric">Cleric</option>
+                            <option value="assassin">Assassin</option>
+                            <option value="druid">Druid</option>
+                            <option value="shaman">Shaman</option>
+                            <option value="monk">Monk</option>
+                            <option value="necromancer">Necromancer</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Alignment</label>
+                        <select id="alignment">
+                            <option value="good">Good</option>
+                            <option value="neutral">Neutral</option>
+                            <option value="evil">Evil</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">Appearance</h2>
+                    <div class="form-group">
+                        <label>Hair Color</label>
+                        <select id="hairColor">
+                            <option value="black">Black</option>
+                            <option value="brown">Brown</option>
+                            <option value="blonde">Blonde</option>
+                            <option value="red">Red</option>
+                            <option value="white">White</option>
+                            <option value="silver">Silver</option>
+                            <option value="blue">Blue</option>
+                            <option value="purple">Purple</option>
+                            <option value="green">Green</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Eye Color</label>
+                        <select id="eyeColor">
+                            <option value="brown">Brown</option>
+                            <option value="blue">Blue</option>
+                            <option value="green">Green</option>
+                            <option value="amber">Amber</option>
+                            <option value="grey">Grey</option>
+                            <option value="red">Red</option>
+                            <option value="purple">Purple</option>
+                            <option value="gold">Gold</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Armor Style</label>
+                        <select id="armorStyle">
+                            <option value="heavy-plate">Heavy Plate Armor</option>
+                            <option value="leather">Leather Armor</option>
+                            <option value="robes">Mystical Robes</option>
+                            <option value="chainmail">Chainmail</option>
+                            <option value="light-armor">Light Armor</option>
+                            <option value="tribal">Tribal Garments</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">Personality</h2>
+                    <div class="form-group">
+                        <label>Personality Trait</label>
+                        <select id="personality">
+                            <option value="brave">Brave - Fearless in the face of danger</option>
+                            <option value="mysterious">Mysterious - Enigmatic and secretive</option>
+                            <option value="kind">Kind - Compassionate and caring</option>
+                            <option value="cunning">Cunning - Clever and strategic</option>
+                            <option value="ruthless">Ruthless - Merciless and brutal</option>
+                            <option value="wise">Wise - Knowledgeable and insightful</option>
+                            <option value="chaotic">Chaotic - Unpredictable and wild</option>
+                            <option value="noble">Noble - Honorable and dignified</option>
+                            <option value="vengeful">Vengeful - Driven by retribution</option>
+                            <option value="ambitious">Ambitious - Power-hungry and driven</option>
+                            <option value="melancholic">Melancholic - Haunted by past sorrows</option>
+                            <option value="optimistic">Optimistic - Hopeful and positive</option>
+                            <option value="stoic">Stoic - Unemotional and disciplined</option>
+                            <option value="rebellious">Rebellious - Defiant and independent</option>
+                            <option value="protective">Protective - Guardian of the weak</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Background Origin</label>
+                        <select id="background">
+                            <option value="ruined-city">Born in a Ruined City</option>
+                            <option value="raised-by-dragons">Raised by Dragons</option>
+                            <option value="orphan">Street Orphan</option>
+                            <option value="noble-house">Noble House</option>
+                            <option value="forest-wilds">Forest Wilds</option>
+                            <option value="monastery">Ancient Monastery</option>
+                            <option value="cursed">Cursed Bloodline</option>
+                            <option value="shipwrecked">Shipwrecked Survivor</option>
+                            <option value="war-torn">War-Torn Homeland</option>
+                            <option value="enslaved">Former Slave</option>
+                            <option value="exile">Exiled from Kingdom</option>
+                            <option value="mountain-peak">Isolated Mountain Peak</option>
+                            <option value="desert-nomad">Desert Nomad Tribe</option>
+                            <option value="underground">Deep Underground Caverns</option>
+                            <option value="pirate">Pirate Ship Crew</option>
+                            <option value="circus">Traveling Circus</option>
+                            <option value="haunted">Haunted Manor</option>
+                            <option value="prophecy">Born from Prophecy</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="randomize-btn" onclick="randomizeCharacter()">🎲 Randomize</button>
+                    <button class="generate-btn" onclick="generateCharacter()">⚡ Create Character</button>
+                </div>
+
+                <div class="error-message" id="errorMessage"></div>
+            </div>
+
+            <div class="preview-panel">
+                <div class="character-display">
+                    <div class="portrait-container" id="portraitContainer">
+                        <div class="placeholder">Your character portrait will appear here</div>
+                        <div class="loading" id="loadingSpinner">
+                            <div class="spinner"></div>
+                            <div>Generating portrait...</div>
+                        </div>
+                    </div>
+                    
+                    <div class="character-info" id="characterInfo" style="display: none;">
+                        <h2 id="displayName" style="color: #feca57; margin-bottom: 15px;"></h2>
+                        
+                        <div class="stat-grid">
+                            <div class="stat-item">
+                                <div class="stat-label">Race</div>
+                                <div class="stat-value" id="displayRace"></div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Class</div>
+                                <div class="stat-value" id="displayClass"></div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Alignment</div>
+                                <div class="stat-value" id="displayAlignment"></div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Element</div>
+                                <div class="stat-value" id="displayElement"></div>
+                            </div>
+                        </div>
+
+                        <div class="stat-grid">
+                            <div class="stat-item">
+                                <div class="stat-label">Strength</div>
+                                <div class="stat-value" id="statStr"></div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Agility</div>
+                                <div class="stat-value" id="statAgi"></div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Intelligence</div>
+                                <div class="stat-value" id="statInt"></div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Charisma</div>
+                                <div class="stat-value" id="statCha"></div>
+                            </div>
+                        </div>
+
+                        <div class="bio-section">
+                            <h3 style="color: #48dbfb; margin-bottom: 10px;">Biography</h3>
+                            <p id="displayBio"></p>
+                        </div>
+
+                        <div class="weapon-description">
+                            <h3 style="color: #feca57; margin-bottom: 10px;">⚔️ Weapon</h3>
+                            <div style="font-weight: bold; margin-bottom: 5px;" id="displayWeapon"></div>
+                            <div id="weaponDesc"></div>
+                        </div>
+
+                        <div class="companion-description" id="companionSection" style="display: none;">
+                            <h3 style="color: #ff9ff3; margin-bottom: 10px;">🐾 Companion</h3>
+                            <div style="font-weight: bold; margin-bottom: 5px;" id="displayCompanion"></div>
+                            <div id="companionDesc"></div>
+                        </div>
+
+                        <div class="abilities-section">
+                            <h3 style="color: #ff6b6b; margin-bottom: 10px;">Special Abilities</h3>
+                            <div id="abilitiesList"></div>
+                        </div>
+
+                        <button class="download-btn" onclick="downloadCharacter()" style="width: 100%; margin-top: 20px;">
+                            💾 Download Character Card
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const characterData = {
+            names: {
+                male: ['Aldric', 'Thorne', 'Kael', 'Draven', 'Roran', 'Gareth', 'Varian', 'Mordred', 'Zephyr', 'Talon', 'Ragnar', 'Caspian'],
+                female: ['Lyra', 'Seraphina', 'Elara', 'Astrid', 'Ravenna', 'Isolde', 'Nyx', 'Aria', 'Morrigan', 'Vesper', 'Calista', 'Ember'],
+                neutral: ['Ash', 'Quinn', 'Raven', 'Storm', 'Phoenix', 'Echo', 'Sage', 'Nova', 'Cipher', 'Onyx', 'Vale', 'Wraith']
+            },
+            elements: {
+                warrior: null,
+                rogue: null,
+                paladin: 'light',
+                ranger: 'nature',
+                mage: ['fire', 'ice', 'arcane', 'storm'],
+                warlock: ['shadow', 'fire', 'arcane'],
+                cleric: 'light',
+                assassin: 'shadow',
+                druid: ['nature', 'earth', 'storm'],
+                shaman: ['earth', 'storm', 'nature'],
+                monk: null,
+                necromancer: 'shadow'
+            },
+            weapons: {
+                warrior: [
+                    {name: 'Greatsword of the Fallen King', desc: 'A massive two-handed blade forged in ancient fires, its edge never dulls and carries the weight of countless victories.'},
+                    {name: 'Longsword & Tower Shield', desc: 'A perfectly balanced sword paired with an impenetrable shield emblazoned with your family crest, offering both offense and defense.'},
+                    {name: 'Battle Axe of Thunder', desc: 'A heavy war axe that crackles with energy upon impact, capable of cleaving through armor and bone alike.'}
+                ],
+                rogue: [
+                    {name: 'Twin Shadow Daggers', desc: 'Obsidian blades that seem to drink in light, these daggers strike silently and leave no trace behind.'},
+                    {name: 'Venom-Tipped Short Sword', desc: 'A swift blade coated in a paralytic toxin, perfect for quick strikes and hasty retreats.'},
+                    {name: 'Crimson Rapier', desc: 'An elegant dueling blade that moves like water, finding gaps in armor with supernatural precision.'}
+                ],
+                paladin: [
+                    {name: 'Holy Avenger & Radiant Shield', desc: 'A blessed longsword that glows with divine light, paired with a shield that can deflect both physical and magical attacks.'},
+                    {name: 'Blessed Mace of Justice', desc: 'A ceremonial weapon infused with holy power, especially devastating against undead and demonic foes.'}
+                ],
+                ranger: [
+                    {name: 'Longbow of the Eagle Eye', desc: 'An enchanted bow crafted from ancient heartwood, its arrows never miss their mark and can strike targets beyond normal sight.'},
+                    {name: 'Crossbow of Swift Death', desc: 'A mechanical masterpiece that fires three bolts simultaneously, reloading with supernatural speed.'}
+                ],
+                mage: [
+                    {name: 'Staff of Eternal Elements', desc: 'A towering staff crowned with a pulsing crystal that amplifies your magical power tenfold, channeling the raw forces of nature.'},
+                    {name: 'Arcane Wand of Stars', desc: 'A slender wand carved from moonstone that allows you to cast spells with precision and reduced strain on your mana reserves.'}
+                ],
+                warlock: [
+                    {name: 'Staff of the Damned', desc: 'A twisted staff made from petrified wood from the underworld, it hungers for souls and grows stronger with each life taken.'},
+                    {name: 'Soul Reaver Blade', desc: 'A sword forged from crystallized darkness that can sever both flesh and spirit, trapping souls within its edge.'}
+                ],
+                cleric: [
+                    {name: 'Staff of Divine Healing', desc: 'A sacred staff topped with a glowing crystal that channels healing energy and can banish undead with a touch.'},
+                    {name: 'Mace of Righteous Fury', desc: 'A blessed weapon that protects allies while smiting enemies with holy fire.'}
+                ],
+                assassin: [
+                    {name: 'Hidden Wrist Blades', desc: 'Spring-loaded retractable blades concealed in your bracers, perfect for silent eliminations and surprise attacks.'},
+                    {name: 'Widows Kiss Dagger', desc: 'A black blade coated in the deadliest poison known to mortals, a single cut means certain death within minutes.'}
+                ],
+                druid: [
+                    {name: 'Living Wood Staff', desc: 'A staff that still grows and blooms, connected to the heart of the forest itself, commanding nature with each gesture.'},
+                    {name: 'Primal Club of the Bear', desc: 'A massive wooden club infused with the strength of ancient bears, it can summon vines to entangle foes.'}
+                ],
+                shaman: [
+                    {name: 'Totem Staff of Ancestors', desc: 'A staff adorned with carved totems of your tribal ancestors, channeling their wisdom and elemental fury.'},
+                    {name: 'Thunder Hammer of Storms', desc: 'A weapon blessed by storm spirits, each strike calls down lightning and thunder upon your enemies.'}
+                ],
+                monk: [
+                    {name: 'Fists of Iron Will', desc: 'Your body is your weapon, conditioned through decades of training to strike harder than steel and block any blade.'},
+                    {name: 'Bo Staff of Balance', desc: 'A simple wooden staff that becomes an extension of your body, capable of deflecting arrows and shattering bones.'}
+                ],
+                necromancer: [
+                    {name: 'Deaths Scythe', desc: 'A massive scythe that reaps souls as easily as wheat, it allows you to harvest life force from the dying.'},
+                    {name: 'Bone Staff of Eternal Night', desc: 'A staff constructed from the bones of ancient liches, pulsing with necromantic energy and the whispers of the dead.'}
+                ]
+            },
+            companions: {
+                ranger: [
+                    {name: 'Shadow Wolf', desc: 'A massive black wolf with intelligence in its amber eyes. It has been your loyal companion since you saved it as a pup, and it would die protecting you.'},
+                    {name: 'Crimson Hawk', desc: 'A majestic hunting hawk with blood-red plumage that can spot prey from miles away. It delivers messages and scouts ahead.'},
+                    {name: 'Midnight Panther', desc: 'A sleek black panther that moves like liquid shadow. Silent and deadly, it stalks your enemies and attacks with lethal precision.'}
+                ],
+                necromancer: [
+                    {name: 'Skeletal Servant', desc: 'A reassembled skeleton warrior bound to your will, it serves as both bodyguard and messenger with unwavering loyalty.'},
+                    {name: 'Spectral Hound', desc: 'A ghostly hound that exists between life and death, phasing through walls and tracking souls across vast distances.'},
+                    {name: 'Undead Raven', desc: 'A rotting raven animated by dark magic that serves as your eyes and ears, speaking with the voices of the dead.'}
+                ],
+                druid: [
+                    {name: 'Ancient Bear Spirit', desc: 'A colossal bear infused with the essence of the old forest. It has protected these woods for centuries and chose you as its companion.'},
+                    {name: 'Forest Guardian Owl', desc: 'A mystical owl with feathers that shimmer like leaves in moonlight. It sees all secrets of the forest.'},
+                    {name: 'Moonlight Stag', desc: 'A white stag with antlers that glow softly in darkness. This noble creature guides you through any terrain.'}
+                ],
+                mage: [
+                    {name: 'Arcane Familiar', desc: 'A small creature of pure magical energy that changes form based on your mood. It helps you focus spells.'},
+                    {name: 'Phoenix Hatchling', desc: 'A young phoenix whose flames never burn you. It is reborn from its ashes and shares its immortal fire with you.'},
+                    {name: 'Frost Pseudo-Dragon', desc: 'A miniature dragon with scales of ice that perches on your shoulder. It breathes freezing mist and can sense magical danger.'}
+                ],
+                warlock: [
+                    {name: 'Imp Familiar', desc: 'A mischievous demon bound by your pact. The imp scouts ahead, spreads chaos among enemies, and whispers dark secrets.'},
+                    {name: 'Shadow Demon', desc: 'A creature born from living darkness that dwells in your shadow. It emerges to attack your foes with claws of pure void.'},
+                    {name: 'Void Serpent', desc: 'A serpentine entity from beyond reality that coils around you invisibly, striking enemies from impossible angles.'}
+                ]
+            }
+        };
+
+        function generateRandomName() {
+            const gender = document.getElementById('gender').value;
+            const names = characterData.names[gender];
+            const randomName = names[Math.floor(Math.random() * names.length)];
+            document.getElementById('charName').value = randomName;
+        }
+
+        function randomizeCharacter() {
+            const genders = ['male', 'female', 'neutral'];
+            const races = Array.from(document.getElementById('race').options).map(o => o.value);
+            const classes = Array.from(document.getElementById('class').options).map(o => o.value);
+            const alignments = ['good', 'neutral', 'evil'];
+            const hairColors = Array.from(document.getElementById('hairColor').options).map(o => o.value);
+            const eyeColors = Array.from(document.getElementById('eyeColor').options).map(o => o.value);
+            const armorStyles = Array.from(document.getElementById('armorStyle').options).map(o => o.value);
+            const personalities = Array.from(document.getElementById('personality').options).map(o => o.value);
+            const backgrounds = Array.from(document.getElementById('background').options).map(o => o.value);
+
+            document.getElementById('gender').value = genders[Math.floor(Math.random() * genders.length)];
+            document.getElementById('race').value = races[Math.floor(Math.random() * races.length)];
+            document.getElementById('class').value = classes[Math.floor(Math.random() * classes.length)];
+            document.getElementById('alignment').value = alignments[Math.floor(Math.random() * alignments.length)];
+            document.getElementById('hairColor').value = hairColors[Math.floor(Math.random() * hairColors.length)];
+            document.getElementById('eyeColor').value = eyeColors[Math.floor(Math.random() * eyeColors.length)];
+            document.getElementById('armorStyle').value = armorStyles[Math.floor(Math.random() * armorStyles.length)];
+            document.getElementById('personality').value = personalities[Math.floor(Math.random() * personalities.length)];
+            document.getElementById('background').value = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+            document.getElementById('charName').value = '';
+        }
+
+        function getElement(charClass) {
+            const element = characterData.elements[charClass];
+            if (!element) return 'None';
+            if (Array.isArray(element)) {
+                return element[Math.floor(Math.random() * element.length)];
+            }
+            return element;
+        }
+
+        function getWeapon(charClass) {
+            const weapons = characterData.weapons[charClass];
+            return weapons[Math.floor(Math.random() * weapons.length)];
+        }
+
+        function getCompanion(charClass) {
+            const companions = characterData.companions[charClass];
+            if (!companions) return null;
+            return companions[Math.floor(Math.random() * companions.length)];
+        }
+
+        function generateStats(charClass, race) {
+            let str = 10, agi = 10, int = 10, cha = 10;
+
+            if (['warrior', 'paladin', 'monk'].includes(charClass)) {
+                str += Math.floor(Math.random() * 6) + 5;
+                agi += Math.floor(Math.random() * 4) + 2;
+            } else if (['rogue', 'assassin', 'ranger'].includes(charClass)) {
+                agi += Math.floor(Math.random() * 6) + 5;
+                str += Math.floor(Math.random() * 4) + 2;
+            } else if (['mage', 'warlock', 'necromancer'].includes(charClass)) {
+                int += Math.floor(Math.random() * 6) + 5;
+                cha += Math.floor(Math.random() * 4) + 2;
+            } else if (['cleric', 'druid', 'shaman'].includes(charClass)) {
+                int += Math.floor(Math.random() * 5) + 3;
+                cha += Math.floor(Math.random() * 5) + 3;
+                str += Math.floor(Math.random() * 3) + 2;
+            }
+
+            if (['dwarf', 'orc', 'minotaur'].includes(race)) str += 3;
+            if (['elf', 'dark-elf', 'forest-elf'].includes(race)) agi += 3;
+            if (['human', 'tiefling'].includes(race)) cha += 2;
+
+            return { str, agi, int, cha };
+        }
+
+        function generateAbilities(charClass, race, element) {
+            const abilities = [];
+            
+            if (charClass === 'warrior') {
+                abilities.push('Devastating Strike: Deals massive damage with melee weapons');
+                abilities.push('Iron Defense: Reduces incoming damage significantly');
+                abilities.push('Battle Cry: Rallies allies and intimidates enemies');
+            } else if (charClass === 'rogue') {
+                abilities.push('Shadow Step: Teleport short distances through shadows');
+                abilities.push('Critical Strike: Increased critical hit chance from behind');
+                abilities.push('Evasion: Dodge incoming attacks with supernatural agility');
+            } else if (charClass === 'mage') {
+                abilities.push(`${element.charAt(0).toUpperCase() + element.slice(1)} Mastery: Command devastating ${element} spells`);
+                abilities.push('Arcane Shield: Create a magical barrier of protection');
+                abilities.push('Mana Surge: Temporarily boost spell power dramatically');
+            } else if (charClass === 'ranger') {
+                abilities.push('Eagle Eye: See and shoot targets at extreme distances');
+                abilities.push('Nature\'s Bond: Communicate with animals and plants');
+                abilities.push('Hunter\'s Mark: Track and deal bonus damage to marked targets');
+            } else if (charClass === 'paladin') {
+                abilities.push('Divine Smite: Channel holy energy into devastating attacks');
+                abilities.push('Lay on Hands: Heal wounds with sacred touch');
+                abilities.push('Aura of Protection: Shield allies from harm');
+            } else if (charClass === 'necromancer') {
+                abilities.push('Raise Dead: Summon skeletal warriors to fight');
+                abilities.push('Life Drain: Steal life force from enemies');
+                abilities.push('Death\'s Touch: Inflict necrotic damage and curses');
+            } else if (charClass === 'druid') {
+                abilities.push('Wild Shape: Transform into powerful beasts');
+                abilities.push('Nature\'s Wrath: Summon vines and thorns to entangle foes');
+                abilities.push('Healing Circle: Restore health to all nearby allies');
+            } else if (charClass === 'warlock') {
+                abilities.push('Eldritch Blast: Fire bolts of dark energy');
+                abilities.push('Dark Pact: Draw power from otherworldly entities');
+                abilities.push('Hex: Curse enemies with weakening magic');
+            } else if (charClass === 'assassin') {
+                abilities.push('Silent Kill: Execute unaware targets instantly');
+                abilities.push('Poison Master: Coat weapons in lethal toxins');
+                abilities.push('Vanish: Become invisible for a short duration');
+            } else if (charClass === 'cleric') {
+                abilities.push('Divine Healing: Powerful restoration magic');
+                abilities.push('Smite Evil: Deal holy damage to dark creatures');
+                abilities.push('Sacred Shield: Protect allies with divine barriers');
+            } else if (charClass === 'shaman') {
+                abilities.push('Elemental Fury: Summon lightning and earthquakes');
+                abilities.push('Spirit Walk: Commune with ancestral spirits');
+                abilities.push('Totemic Power: Place totems that buff allies');
+            } else if (charClass === 'monk') {
+                abilities.push('Flurry of Blows: Unleash a barrage of rapid strikes');
+                abilities.push('Ki Strike: Channel inner energy into devastating attacks');
+                abilities.push('Diamond Body: Resist poisons and disease');
+            }
+
+            return abilities;
+        }
+
+        function generateBio(name, race, charClass, background, personality, alignment, element) {
+            const raceMap = {
+                'human': 'human',
+                'elf': 'high elf',
+                'dark-elf': 'dark elf',
+                'forest-elf': 'forest elf',
+                'dwarf': 'dwarf',
+                'orc': 'orc',
+                'tiefling': 'tiefling',
+                'dragonborn': 'dragonborn',
+                'undead': 'undead',
+                'goblin': 'goblin',
+                'minotaur': 'minotaur'
+            };
+
+            const bgMap = {
+                'ruined-city': 'the ashes of a ruined city',
+                'raised-by-dragons': 'the care of ancient dragons',
+                'orphan': 'the harsh streets as an orphan',
+                'noble-house': 'a prestigious noble house',
+                'forest-wilds': 'the untamed forest wilds',
+                'monastery': 'an ancient monastery high in the mountains',
+                'cursed': 'a cursed bloodline that haunts your family',
+                'shipwrecked': 'a devastating shipwreck on forgotten shores',
+                'war-torn': 'a war-torn homeland ravaged by endless conflict',
+                'enslaved': 'the chains of slavery that you eventually broke',
+                'exile': 'exile from your kingdom for crimes you may not have committed',
+                'mountain-peak': 'an isolated mountain peak where few dare to venture',
+                'desert-nomad': 'a desert nomad tribe that wandered the endless sands',
+                'underground': 'deep underground caverns far from sunlight',
+                'pirate': 'a notorious pirate ship that sailed lawless seas',
+                'circus': 'a traveling circus of misfits and performers',
+                'haunted': 'a haunted manor filled with restless spirits',
+                'prophecy': 'a prophecy foretelling your arrival to the world'
+            };
+
+            const templates = [
+                `${name} emerged from ${bgMap[background]}, their ${personality} nature forged through trials that would have broken lesser souls. As a ${raceMap[race]} ${charClass}, they have walked a ${alignment} path that has made them both feared and respected across the realm. Those who have witnessed their power speak of ${name} in hushed whispers, knowing that destiny has chosen them for something greater than any mortal can comprehend.`,
+                
+                `The ${personality} ${raceMap[race]} known as ${name} rose from ${bgMap[background]} with a determination that borders on obsession. Their mastery of the ${charClass} arts came at a terrible price, one they paid willingly to achieve their ${alignment} goals. ${name}'s reputation precedes them in every tavern and court, and those who dare to challenge them quickly learn why legends are born from blood and sacrifice.`,
+                
+                `Born from ${bgMap[background]}, ${name} discovered their calling as a ${charClass} through circumstances most would call fate. Their ${personality} demeanor masks a complexity that few can truly understand, and their ${alignment} choices have shaped the world around them in ways both seen and unseen. ${name} carries secrets that could shake kingdoms, and the weight of those secrets drives them ever forward toward an uncertain destiny.`,
+                
+                `${name}'s journey began in ${bgMap[background]}, where they learned that survival meant becoming something more than ordinary. As a ${raceMap[race]} ${charClass}, their ${personality} spirit refuses to bow to any authority but their own conscience, following a ${alignment} code that others struggle to comprehend. The scars they bear tell stories of battles won and losses that still haunt their dreams, yet ${name} continues forward, knowing that their greatest trial still lies ahead.`,
+                
+                `Few know the true story of ${name}, the ${personality} ${raceMap[race]} who walked away from ${bgMap[background]} to forge their own legend. Their path as a ${charClass} has been marked by ${alignment} choices that define who they are at their core. ${name} has seen empires rise and fall, made allies of the unlikeliest companions, and earned enemies who will stop at nothing to see them destroyed. Yet they endure, because some destinies cannot be escaped, only embraced.`
+            ];
+
+            let bio = templates[Math.floor(Math.random() * templates.length)];
+            
+            if (element !== 'none' && element !== 'None') {
+                const elementAddons = [
+                    ` Their mastery over ${element} magic is unmatched, bending the very forces of nature to their will.`,
+                    ` The power of ${element} flows through their veins, marking them as chosen by elemental forces.`,
+                    ` Through ${element} magic, they command powers that mortals were never meant to wield.`
+                ];
+                bio += elementAddons[Math.floor(Math.random() * elementAddons.length)];
+            }
+
+            return bio;
+        }
+
+        function generateName(gender) {
+            const nameInput = document.getElementById('charName').value.trim();
+            if (nameInput) return nameInput;
+            
+            const names = characterData.names[gender];
+            return names[Math.floor(Math.random() * names.length)];
+        }
+
+        function createImagePrompt(character) {
+            const raceDescriptions = {
+                'human': 'human with realistic proportions and diverse features',
+                'elf': 'elegant high elf with long pointed ears, sharp features, and ethereal beauty',
+                'dark-elf': 'dark elf with deep purple-grey skin, white hair, and piercing eyes',
+                'forest-elf': 'forest elf with earthy tones, natural features, and connection to nature',
+                'dwarf': 'stout muscular dwarf with thick beard and strong build',
+                'orc': 'powerful orc with green skin, prominent tusks, and fierce expression',
+                'tiefling': 'tiefling with curved horns, tail, and demonic heritage features',
+                'dragonborn': 'dragonborn with reptilian scales, dragon-like head, and powerful physique',
+                'undead': 'undead creature with pale decaying skin, hollow eyes, and ghostly aura',
+                'goblin': 'small goblin with pointed ears, sharp teeth, and cunning expression',
+                'minotaur': 'massive minotaur with bull head, horns, and powerful muscular body'
+            };
+
+            const armorDescriptions = {
+                'heavy-plate': 'wearing heavy ornate plate armor with intricate engravings',
+                'leather': 'wearing weathered leather armor with buckles and straps',
+                'robes': 'wearing flowing mystical robes adorned with arcane symbols',
+                'chainmail': 'wearing gleaming chainmail armor',
+                'light-armor': 'wearing light flexible armor for mobility',
+                'tribal': 'wearing tribal garments with bones and feathers'
+            };
+
+            const classDetails = {
+                'warrior': 'warrior stance, battle-ready, muscular build',
+                'rogue': 'stealthy pose, agile build, cunning expression',
+                'paladin': 'noble bearing, holy aura, righteous expression',
+                'ranger': 'rugged outdoorsman, alert stance, nature connection',
+                'mage': 'mystical energy surrounding them, wise expression',
+                'warlock': 'dark magical energy, mysterious aura, arcane symbols',
+                'cleric': 'holy light emanating, compassionate expression',
+                'assassin': 'deadly grace, hidden weapons, shadowy presence',
+                'druid': 'natural magic aura, primal connection, earth tones',
+                'shaman': 'elemental spirits visible, tribal markings, mystical presence',
+                'monk': 'disciplined stance, martial arts pose, inner peace',
+                'necromancer': 'surrounded by death energy, dark aura, skeletal imagery'
+            };
+
+            const prompt = `High quality fantasy portrait, professional digital art, ${raceDescriptions[character.race]} ${character.gender}, ${classDetails[character.charClass]}, ${character.hairColor} hair, ${character.eyeColor} eyes, ${armorDescriptions[character.armorStyle]}, ${character.personality} expression, dramatic lighting, epic fantasy style, detailed texture, wielding ${character.weapon.name}, trending on artstation, 4k quality, cinematic composition, ${character.element !== 'None' ? character.element + ' magic effects' : ''}, full character portrait`;
+            
+            return prompt;
+        }
+
+        async function generateCharacter() {
+            const gender = document.getElementById('gender').value;
+            const race = document.getElementById('race').value;
+            const charClass = document.getElementById('class').value;
+            const alignment = document.getElementById('alignment').value;
+            const hairColor = document.getElementById('hairColor').value;
+            const eyeColor = document.getElementById('eyeColor').value;
+            const armorStyle = document.getElementById('armorStyle').value;
+            const personality = document.getElementById('personality').value.split(' - ')[0];
+            const background = document.getElementById('background').value;
+
+            const name = generateName(gender);
+            const element = getElement(charClass);
+            const weapon = getWeapon(charClass);
+            const companion = getCompanion(charClass);
+            const stats = generateStats(charClass, race);
+            const abilities = generateAbilities(charClass, race, element);
+            const bio = generateBio(name, race, charClass, background, personality, alignment, element);
+
+            const character = {
+                name, gender, race, charClass, alignment, element,
+                hairColor, eyeColor, armorStyle, personality, background,
+                weapon, companion, stats, abilities, bio
+            };
+
+            document.getElementById('displayName').textContent = name;
+            document.getElementById('displayRace').textContent = race.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+            document.getElementById('displayClass').textContent = charClass.charAt(0).toUpperCase() + charClass.slice(1);
+            document.getElementById('displayAlignment').textContent = alignment.charAt(0).toUpperCase() + alignment.slice(1);
+            document.getElementById('displayElement').textContent = element.charAt(0).toUpperCase() + element.slice(1);
+            document.getElementById('statStr').textContent = stats.str;
+            document.getElementById('statAgi').textContent = stats.agi;
+            document.getElementById('statInt').textContent = stats.int;
+            document.getElementById('statCha').textContent = stats.cha;
+            document.getElementById('displayBio').textContent = bio;
+            document.getElementById('displayWeapon').textContent = weapon.name;
+            document.getElementById('weaponDesc').textContent = weapon.desc;
+
+            if (companion) {
+                document.getElementById('companionSection').style.display = 'block';
+                document.getElementById('displayCompanion').textContent = companion.name;
+                document.getElementById('companionDesc').textContent = companion.desc;
+            } else {
+                document.getElementById('companionSection').style.display = 'none';
+            }
+
+            const abilitiesList = document.getElementById('abilitiesList');
+            abilitiesList.innerHTML = '';
+            abilities.forEach(ability => {
+                const div = document.createElement('div');
+                div.className = 'ability-item';
+                div.textContent = ability;
+                abilitiesList.appendChild(div);
+            });
+
+            document.getElementById('characterInfo').style.display = 'block';
+
+            await generatePortrait(character);
+        }
+
+        async function generatePortrait(character) {
+            const portraitContainer = document.getElementById('portraitContainer');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            errorMessage.classList.remove('active');
+            loadingSpinner.classList.add('active');
+
+            const prompt = createImagePrompt(character);
+            console.log('Image Prompt:', prompt);
+
+            try {
+                const encodedPrompt = encodeURIComponent(prompt);
+                const seed = Math.floor(Math.random() * 1000000);
+                const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=768&height=1024&seed=${seed}&nologo=true`;
+                
+                await new Promise(resolve => setTimeout(resolve, 2000));
+
+                const img = document.createElement('img');
+                img.src = imageUrl;
+                img.alt = `${character.name} portrait`;
+                
+                img.onload = () => {
+                    portraitContainer.innerHTML = '';
+                    portraitContainer.appendChild(img);
+                    loadingSpinner.classList.remove('active');
+                    portraitContainer.appendChild(loadingSpinner);
+                };
+
+                img.onerror = () => {
+                    loadingSpinner.classList.remove('active');
+                    errorMessage.textContent = 'Failed to generate portrait. Please try again.';
+                    errorMessage.classList.add('active');
+                };
+
+            } catch (error) {
+                loadingSpinner.classList.remove('active');
+                errorMessage.textContent = 'Error generating portrait: ' + error.message;
+                errorMessage.classList.add('active');
+            }
+        }
+
+        async function downloadCharacter() {
+            try {
+                const name = document.getElementById('displayName').textContent;
+                const race = document.getElementById('displayRace').textContent;
+                const charClass = document.getElementById('displayClass').textContent;
+                const alignment = document.getElementById('displayAlignment').textContent;
+                const element = document.getElementById('displayElement').textContent;
+                const weapon = document.getElementById('displayWeapon').textContent;
+                const weaponDesc = document.getElementById('weaponDesc').textContent;
+                const companion = document.getElementById('displayCompanion').textContent;
+                const companionDesc = document.getElementById('companionDesc').textContent;
+                const bio = document.getElementById('displayBio').textContent;
+                const str = document.getElementById('statStr').textContent;
+                const agi = document.getElementById('statAgi').textContent;
+                const int = document.getElementById('statInt').textContent;
+                const cha = document.getElementById('statCha').textContent;
+                
+                const abilities = [];
+                document.querySelectorAll('.ability-item').forEach(item => {
+                    abilities.push(item.textContent);
+                });
+
+                // Get the portrait image
+                const portraitImg = document.querySelector('#portraitContainer img');
+                let imageData = '';
+                
+                if (portraitImg) {
+                    // Convert image to base64
+                    const canvas = document.createElement('canvas');
+                    canvas.width = portraitImg.naturalWidth;
+                    canvas.height = portraitImg.naturalHeight;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(portraitImg, 0, 0);
+                    imageData = canvas.toDataURL('image/jpeg', 0.8);
+                }
+
+                // Create PDF content as HTML
+                const pdfContent = `
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <meta charset="UTF-8">
+                        <style>
+                            @page { size: A4; margin: 20mm; }
+                            body { 
+                                font-family: Arial, sans-serif; 
+                                background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+                                color: #e0e0e0;
+                                padding: 20px;
+                                margin: 0;
+                            }
+                            .header { 
+                                text-align: center; 
+                                margin-bottom: 30px;
+                                padding: 20px;
+                                background: rgba(255, 255, 255, 0.1);
+                                border-radius: 10px;
+                            }
+                            .title { 
+                                font-size: 36px; 
+                                font-weight: bold; 
+                                color: #feca57;
+                                margin-bottom: 10px;
+                            }
+                            .subtitle { 
+                                font-size: 20px; 
+                                color: #48dbfb;
+                            }
+                            .content { 
+                                display: grid;
+                                grid-template-columns: 1fr 1fr;
+                                gap: 20px;
+                            }
+                            .portrait { 
+                                text-align: center;
+                            }
+                            .portrait img { 
+                                max-width: 100%;
+                                border-radius: 10px;
+                                border: 3px solid #48dbfb;
+                            }
+                            .info-section {
+                                background: rgba(255, 255, 255, 0.1);
+                                padding: 15px;
+                                border-radius: 8px;
+                                margin-bottom: 15px;
+                            }
+                            .section-title {
+                                font-size: 18px;
+                                font-weight: bold;
+                                color: #feca57;
+                                margin-bottom: 10px;
+                                border-bottom: 2px solid #feca57;
+                                padding-bottom: 5px;
+                            }
+                            .stat-grid {
+                                display: grid;
+                                grid-template-columns: 1fr 1fr;
+                                gap: 10px;
+                                margin: 10px 0;
+                            }
+                            .stat-item {
+                                background: rgba(0, 0, 0, 0.3);
+                                padding: 8px;
+                                border-radius: 5px;
+                                border-left: 3px solid #feca57;
+                            }
+                            .stat-label {
+                                font-size: 12px;
+                                color: #48dbfb;
+                            }
+                            .stat-value {
+                                font-size: 16px;
+                                font-weight: bold;
+                            }
+                            .bio {
+                                line-height: 1.6;
+                                margin: 10px 0;
+                            }
+                            .ability {
+                                background: rgba(255, 107, 107, 0.2);
+                                padding: 8px;
+                                margin: 5px 0;
+                                border-radius: 5px;
+                                border-left: 3px solid #ff6b6b;
+                            }
+                            .weapon-section, .companion-section {
+                                background: rgba(72, 219, 251, 0.1);
+                                padding: 12px;
+                                margin: 10px 0;
+                                border-radius: 5px;
+                                border-left: 3px solid #48dbfb;
+                            }
+                            .weapon-name, .companion-name {
+                                font-weight: bold;
+                                color: #feca57;
+                                margin-bottom: 5px;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="header">
+                            <div class="title">⚔️ ${name} ⚔️</div>
+                            <div class="subtitle">${race} ${charClass}</div>
+                        </div>
+                        
+                        <div class="content">
+                            <div>
+                                <div class="portrait">
+                                    ${imageData ? `<img src="${imageData}" alt="Character Portrait">` : '<p>No portrait available</p>'}
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="info-section">
+                                    <div class="section-title">Character Info</div>
+                                    <div class="stat-grid">
+                                        <div class="stat-item">
+                                            <div class="stat-label">Race</div>
+                                            <div class="stat-value">${race}</div>
+                                        </div>
+                                        <div class="stat-item">
+                                            <div class="stat-label">Class</div>
+                                            <div class="stat-value">${charClass}</div>
+                                        </div>
+                                        <div class="stat-item">
+                                            <div class="stat-label">Alignment</div>
+                                            <div class="stat-value">${alignment}</div>
+                                        </div>
+                                        <div class="stat-item">
+                                            <div class="stat-label">Element</div>
+                                            <div class="stat-value">${element}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="info-section">
+                                    <div class="section-title">Stats</div>
+                                    <div class="stat-grid">
+                                        <div class="stat-item">
+                                            <div class="stat-label">Strength</div>
+                                            <div class="stat-value">${str}</div>
+                                        </div>
+                                        <div class="stat-item">
+                                            <div class="stat-label">Agility</div>
+                                            <div class="stat-value">${agi}</div>
+                                        </div>
+                                        <div class="stat-item">
+                                            <div class="stat-label">Intelligence</div>
+                                            <div class="stat-value">${int}</div>
+                                        </div>
+                                        <div class="stat-item">
+                                            <div class="stat-label">Charisma</div>
+                                            <div class="stat-value">${cha}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="info-section">
+                                    <div class="section-title">Biography</div>
+                                    <div class="bio">${bio}</div>
+                                </div>
+
+                                <div class="weapon-section">
+                                    <div class="section-title">⚔️ Weapon</div>
+                                    <div class="weapon-name">${weapon}</div>
+                                    <div>${weaponDesc}</div>
+                                </div>
+
+                                ${companion && companion !== 'None' ? `
+                                <div class="companion-section">
+                                    <div class="section-title">🐾 Companion</div>
+                                    <div class="companion-name">${companion}</div>
+                                    <div>${companionDesc}</div>
+                                </div>
+                                ` : ''}
+
+                                <div class="info-section">
+                                    <div class="section-title">Special Abilities</div>
+                                    ${abilities.map(ability => `<div class="ability">${ability}</div>`).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    </body>
+                    </html>
+                `;
+
+                // Create a Blob with the HTML content
+                const blob = new Blob([pdfContent], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                
+                // Create download link
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `${name}_Character_Card.html`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+
+                // Show success message
+                const errorMessage = document.getElementById('errorMessage');
+                errorMessage.style.background = 'rgba(72, 219, 251, 0.2)';
+                errorMessage.style.color = '#48dbfb';
+                errorMessage.style.borderColor = '#48dbfb';
+                errorMessage.textContent = '✅ Character card downloaded successfully! Open the HTML file in your browser and use Print > Save as PDF.';
+                errorMessage.classList.add('active');
+                
+                setTimeout(() => {
+                    errorMessage.classList.remove('active');
+                    errorMessage.style.background = 'rgba(255, 107, 107, 0.2)';
+                    errorMessage.style.color = '#ff6b6b';
+                    errorMessage.style.borderColor = '#ff6b6b';
+                }, 5000);
+
+            } catch (error) {
+                console.error('Download error:', error);
+                const errorMessage = document.getElementById('errorMessage');
+                errorMessage.textContent = 'Error downloading character card: ' + error.message;
+                errorMessage.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
