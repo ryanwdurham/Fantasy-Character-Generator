@@ -281,6 +281,25 @@
 }
 
 @media (max-width: 968px) and (orientation: landscape) {
+    button[onclick="generateRandomName()"] {
+        padding: 8px 12px !important;
+        font-size: 0.8em !important;
+        min-width: 70px !important;
+        max-width: 90px !important;
+        white-space: nowrap !important;
+    }
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+    button[onclick="generateRandomName()"] {
+        padding: 6px 10px !important;
+        font-size: 0.75em !important;
+        min-width: 60px !important;
+        max-width: 80px !important;
+    }
+}
+
+@media (max-width: 968px) and (orientation: landscape) {
     .name-input-group {
         display: flex;
         gap: 8px;
