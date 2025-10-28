@@ -307,7 +307,7 @@
     .button-group {
         flex-direction: column;
     }
-}
+
 
 @media (max-width: 968px) and (orientation: landscape) {
     .name-input-group {
@@ -459,6 +459,16 @@
                             <option value="chainmail">Chainmail</option>
                             <option value="light-armor">Light Armor</option>
                             <option value="tribal">Tribal Garments</option>
+                                    <option value="scale-mail">Scale Mail</option>
+        <option value="dragon-scale">Dragon Scale Armor</option>
+        <option value="shadow-cloak">Shadow Cloak</option>
+        <option value="battle-robes">Battle Robes</option>
+        <option value="crystal-armor">Crystal Armor</option>
+        <option value="bone-armor">Bone Armor</option>
+        <option value="silk-robes">Silk Robes</option>
+        <option value="studded-leather">Studded Leather</option>
+        <option value="elven-mail">Elven Mail</option>
+        <option value="fur-armor">Fur-Lined Armor</option>
                         </select>
                     </div>
                 </div>
@@ -1005,22 +1015,32 @@ async function generateRandomName() {
                 'robes': 'wearing flowing mystical robes adorned with arcane symbols',
                 'chainmail': 'wearing gleaming chainmail armor',
                 'light-armor': 'wearing light flexible armor for mobility',
+                'scale-mail': 'wearing scale mail armor with overlapping metal scales',
+    'dragon-scale': 'wearing armor made from actual dragon scales, shimmering with power',
+    'shadow-cloak': 'wearing a dark shadow cloak that seems to absorb light',
+    'battle-robes': 'wearing reinforced battle robes with armored plates',
+    'crystal-armor': 'wearing crystalline armor that glows with inner light',
+    'bone-armor': 'wearing armor crafted from ancient bones and dark magic',
+    'silk-robes': 'wearing elegant silk robes embroidered with golden thread',
+    'studded-leather': 'wearing studded leather armor with metal reinforcements',
+    'elven-mail': 'wearing lightweight elven mail that shimmers like moonlight',
+    'fur-armor': 'wearing thick fur-lined armor for cold climates',
                 'tribal': 'wearing tribal garments with bones and feathers'
             };
 
             const classDetails = {
-                'warrior': 'warrior stance, battle-ready, muscular build',
-                'rogue': 'stealthy pose, agile build, cunning expression',
-                'paladin': 'noble bearing, holy aura, righteous expression',
-                'ranger': 'rugged outdoorsman, alert stance, nature connection',
-                'mage': 'mystical energy surrounding them, wise expression',
-                'warlock': 'dark magical energy, mysterious aura, arcane symbols',
-                'cleric': 'holy light emanating, compassionate expression',
-                'assassin': 'deadly grace, hidden weapons, shadowy presence',
-                'druid': 'natural magic aura, primal connection, earth tones',
-                'shaman': 'elemental spirits visible, tribal markings, mystical presence',
-                'monk': 'disciplined stance, martial arts pose, inner peace',
-                'necromancer': 'surrounded by death energy, dark aura, skeletal imagery'
+                'warrior': 'powerful warrior in heroic battle stance, heavily muscled physique, scarred from countless battles, gripping weapon with confidence, battle-hardened expression, commanding presence, warrior spirit radiating strength and courage, ready for combat',
+    'rogue': 'agile rogue in stealthy crouched pose, lithe athletic build, cunning sly expression, fingers near hidden daggers, moving through shadows, street-smart demeanor, quick reflexes visible in posture, eyes scanning for danger and opportunity',
+    'paladin': 'noble paladin standing with righteous bearing, radiant holy light emanating from armor, divine aura glowing around body, compassionate yet stern expression, blessed by the gods, champion of justice, golden divine energy swirling, hand raised in blessing',
+    'ranger': 'rugged ranger in alert hunter stance, weathered by wilderness, keen eyes scanning horizon, bow or dual weapons ready, connected to nature, tracking pose, survival scars, animal companion nearby, forest guardian aura, wind-swept hair',
+    'mage': 'powerful mage channeling mystical arcane energy, flowing robes billowing with magic, glowing magical runes and symbols floating around, spellbook or staff crackling with power, ancient wisdom in eyes, reality bending around them, cosmic energy swirling',
+    'warlock': 'dark warlock wreathed in eldritch energy, mysterious shadowy aura, forbidden arcane symbols glowing on skin, pact marks visible, otherworldly power coursing through body, demonic or cosmic energy manifesting, sinister knowing smile, reality warping around them',
+    'cleric': 'divine cleric radiating holy light, blessed by deity, healing energy flowing from hands, sacred symbols glowing, compassionate merciful expression, divine magic surrounding, celestial aura, prayer beads or holy symbol prominently displayed, sanctified presence',
+    'assassin': 'deadly assassin emerging from shadows, lethal grace in every movement, multiple hidden weapons visible, face partially concealed, predatory focused eyes, master of death, silent killer aura, poised to strike, darkness clinging to form',
+    'druid': 'primal druid connected to nature, natural magic flowing through body, vines and leaves growing around, animal spirits visible, earth tones and natural materials, wild untamed appearance, glowing green nature energy, one with the wilderness, beast-like features emerging',
+    'shaman': 'mystical shaman channeling elemental spirits, tribal markings and tattoos glowing with power, ancestral spirits swirling around, totems and bones adorning clothing, elemental energy manifesting, storm clouds or earth power visible, connection to spirit realm, ritualistic pose',
+    'monk': 'disciplined monk in perfect martial arts stance, lean muscular build, inner chi energy glowing, serene focused expression, bare-fisted or staff weapon, balanced centered posture, tattoos of ancient wisdom, aura of inner peace and deadly precision, meditation and violence combined',
+    'necromancer': 'dark necromancer surrounded by death energy, skeletal minions rising nearby, necrotic green or purple energy swirling, skull motifs on clothing, pale deathly appearance, commanding the undead, dark magic pulsing, spirits of the dead circling, life-draining aura visible'
             };
 
             const prompt = `High quality fantasy portrait, professional digital art, ${raceDescriptions[character.race]} ${character.gender}, ${classDetails[character.charClass]}, ${character.hairColor} hair, ${character.eyeColor} eyes, ${armorDescriptions[character.armorStyle]}, ${character.personality} expression, dramatic lighting, epic fantasy style, detailed texture, wielding ${character.weapon.name}, trending on artstation, 4k quality, cinematic composition, ${character.element !== 'None' ? character.element + ' magic effects' : ''}, full character portrait`;
