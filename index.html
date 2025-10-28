@@ -266,10 +266,39 @@
             100% { transform: rotate(360deg); }
         }
 
-      @media (max-width: 968px) {
+    @media (max-width: 968px) {
     .main-content {
         grid-template-columns: 1fr;
     }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 968px) and (orientation: landscape) {
+    .name-input-group {
+        display: flex;
+        gap: 8px;
+    }
+    
+    .name-input-group input {
+        flex: 1;
+    }
+    
+    .name-input-group button {
+        flex: 0 0 auto;
+        padding: 10px 12px !important;
+        font-size: 0.85em !important;
+        white-space: nowrap;
+        min-width: 80px;
+        max-width: 100px;
+    }
+}
 
     h1 {
         font-size: 2em;
