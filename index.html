@@ -516,6 +516,11 @@
                             <option value="circus">Traveling Circus</option>
                             <option value="haunted">Haunted Manor</option>
                             <option value="prophecy">Born from Prophecy</option>
+                            <option value="thieves-guild">Raised by Thieves Guild</option>
+                            <option value="temple">Sacred Temple Acolyte</option>
+                            <option value="merchant">Wealthy Merchant Family</option>
+                            <option value="military">Elite Military Academy</option>
+                            <option value="gladiator">Arena Gladiator</option>
                         </select>
                     </div>
                 </div>
@@ -959,7 +964,28 @@ async function generateRandomName() {
         'haunted': [`${name} lived in a manor plagued by restless spirits who taught ${object} to see beyond the veil separating life and death.`,
                    `Growing up in a house where the dead walked freely, ${name} learned that ghosts have much to teach the living.`],
         'prophecy': [`${name} was foretold by oracles centuries before ${possessive} birth, marked by destiny for a fate ${pronoun} cannot escape.`,
-                    `Ancient prophecies spoke of ${name}'s arrival, claiming ${pronoun} would either save or doom the world.`]
+                    `Ancient prophecies spoke of ${name}'s arrival, claiming ${pronoun} would either save or doom the world.`],
+                    'gladiator': [`${name} fought in brutal arena combat for years, earning freedom through blood and the roar of crowds that still echo in ${possessive} nightmares.`,
+             `Forced to fight as a gladiator for the entertainment of nobles, ${name} survived by becoming the arena's most feared champion.`],
+'frozen-wastes': [`${name} was born in the frozen wastes where survival means embracing the cold, learning that warmth comes only from the fire within.`,
+                 `Raised in endless ice and snow, ${name} became as hard and unyielding as the frozen landscape that shaped ${object}.`],
+'thieves-guild': [`${name} was recruited by a powerful thieves guild as a child, mastering the arts of stealth, deception, and survival in the criminal underworld.`,
+                 `Growing up in the shadow organization of thieves, ${name} learned that honor among thieves is the only honor worth having.`],
+'temple': [`${name} served as an acolyte in a sacred temple, learning ancient rites and holy texts before ${possessive} true calling led ${object} elsewhere.`,
+          `Raised within temple walls, ${name} was groomed for religious service but discovered that ${possessive} destiny lay beyond prayer and ritual.`],
+'merchant': [`${name} was born into a wealthy merchant family but rejected the life of commerce for adventure, seeking glory over gold.`,
+            `Growing up surrounded by exotic goods and traveling traders, ${name} learned that true wealth cannot be bought or sold.`],
+'witch-coven': [`${name} was raised within a secretive witch coven, learning forbidden magic and ancient curses that most fear to speak of.`,
+               `Born into a coven of witches hidden from the world, ${name} mastered dark arts that blur the line between magic and madness.`],
+'military': [`${name} trained at an elite military academy where discipline was absolute and failure meant death, emerging as a tactical genius.`,
+            `Forged in the rigorous halls of a military institution, ${name} learned that strategy and strength go hand in hand.`],
+'dimensional-rift': [`${name} fell through a dimensional rift as a child, spending years in otherworldly realms before finding ${possessive} way back forever changed.`,
+                    `After accidentally passing through a tear in reality, ${name} wandered alien dimensions that taught ${object} truths mortals cannot comprehend.`],
+'plague-survivor': [`${name} is the sole survivor of a plague that wiped out ${possessive} entire village, carrying both immunity and survivor's guilt.`,
+                   `When plague consumed ${possessive} homeland, ${name} alone lived, marked by death but refusing to surrender to it.`],
+'royal-guard': [`${name} served as an elite royal guard until betrayal within the court forced ${object} to flee, branded as traitor or hero depending on who tells the tale.`,
+               `As a former member of the royal guard, ${name} witnessed corruption at the highest levels and chose exile over complicity.`]
+                    
     };
 
     const origin = bgDetails[background][Math.floor(Math.random() * bgDetails[background].length)];
@@ -996,18 +1022,18 @@ async function generateRandomName() {
 
         function createImagePrompt(character) {
             const raceDescriptions = {
-                'human': 'human with realistic proportions and diverse features',
-                'elf': 'elegant high elf with long pointed ears, sharp features, and ethereal beauty',
-                'dark-elf': 'dark elf with deep purple-grey skin, white hair, and piercing eyes',
-                'forest-elf': 'forest elf with earthy tones, natural features, and connection to nature',
-                'dwarf': 'stout muscular dwarf with thick beard and strong build',
-                'orc': 'powerful orc with green skin, prominent tusks, and fierce expression',
-                'tiefling': 'tiefling with curved horns, tail, and demonic heritage features',
-                'dragonborn': 'dragonborn with reptilian scales, dragon-like head, and powerful physique',
-                'undead': 'undead creature with pale decaying skin, hollow eyes, and ghostly aura',
-                'goblin': 'small goblin with pointed ears, sharp teeth, and cunning expression',
-                'minotaur': 'massive minotaur with bull head, horns, and powerful muscular body'
-            };
+    'human': 'human with realistic well-proportioned features, diverse natural skin tones, expressive face showing determination and intelligence, battle-worn or noble depending on background, relatable heroic presence, authentic human anatomy',
+    'elf': 'elegant high elf with impossibly long pointed ears extending back gracefully, angular sharp aristocratic features, luminous otherworldly eyes that seem to glow, ethereal supernatural beauty, flawless porcelain skin, flowing silver or golden hair, tall slender build radiating ancient grace and immortal wisdom',
+    'dark-elf': 'dark elf with midnight blue or deep purple-grey skin with subtle shimmer, striking bright white or silver hair flowing long, intense glowing eyes in violet or red, sharp elegant features with hint of danger, mysterious beauty, silver jewelry and dark clothing, underground dweller appearance, graceful yet intimidating',
+    'forest-elf': 'forest elf with sun-kissed tan or olive skin marked by nature, earthy brown or green-tinged hair adorned with leaves and flowers, warm amber or green eyes reflecting wilderness, natural tattoos or bark-like markings, lithe athletic ranger build, one with nature appearance, druidic features, wild untamed beauty',
+    'dwarf': 'stout powerfully built dwarf with incredibly thick braided beard reaching chest, weather-beaten tough skin, broad muscular shoulders, short sturdy legs, hardened hands from forge work, battle scars, fierce determined eyes, traditional clan braids and beads in hair, stocky frame radiating strength and resilience',
+    'orc': 'powerful intimidating orc with dark green or grey-green muscular skin, prominent lower tusks protruding upward, brutish fierce features, heavy brow ridge, battle scars across face and body, massive muscular build, war paint or tribal markings, intense predatory eyes, savage warrior presence, imposing threatening stature',
+    'tiefling': 'tiefling with crimson red or deep purple skin, elegant curved horns sweeping back from forehead, pointed ears, long devil tail with spaded tip, glowing eyes without pupils in gold or red, sharp canine teeth, infernal heritage visible in features, otherworldly beauty mixed with demonic traits, arcane markings on skin',
+    'dragonborn': 'dragonborn with scaled reptilian skin in metallic or chromatic dragon colors, dragon-like head with snout and fangs, no hair but prominent head frills or horns, powerful muscular draconic physique, clawed hands and feet, scaled armor plating, intimidating draconic presence, ancient dragon bloodline visible in every feature',
+    'undead': 'undead being with deathly pale grey or blue-tinged decaying skin, sunken hollow glowing eyes, gaunt skeletal features visible beneath flesh, patches of exposed bone, dark veins visible, ethereal ghostly aura surrounding body, unnatural preserved appearance, lifeless yet animated, dread-inducing presence, touches of rot and decay',
+    'goblin': 'small wiry goblin with green or yellow leathery skin, oversized pointed bat-like ears, large yellow eyes with slit pupils, sharp pointed teeth in wide grin, hooked nose, mischievous cunning expression, thin gangly limbs, hunched posture, scrappy survivor appearance, chaotic energy, quick and clever features',
+    'minotaur': 'massive intimidating minotaur with powerful bull head featuring large curved horns, bovine snout with flaring nostrils, fur-covered head and shoulders, enormous muscular humanoid body, hooved feet, thick neck, battle-scarred hide, towering over others, bestial rage in eyes, raw primal strength radiating, labyrinth guardian presence'
+};
 
             const armorDescriptions = {
                 'heavy-plate': 'wearing heavy ornate plate armor with intricate engravings',
@@ -1109,46 +1135,53 @@ async function generateRandomName() {
         }
 
         async function generatePortrait(character) {
-            const portraitContainer = document.getElementById('portraitContainer');
-            const loadingSpinner = document.getElementById('loadingSpinner');
-            const errorMessage = document.getElementById('errorMessage');
-            
-            errorMessage.classList.remove('active');
-            loadingSpinner.classList.add('active');
+    const portraitContainer = document.getElementById('portraitContainer');
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    const errorMessage = document.getElementById('errorMessage');
+    
+    errorMessage.classList.remove('active');
+    loadingSpinner.classList.add('active');
 
-            const prompt = createImagePrompt(character);
-            console.log('Image Prompt:', prompt);
+    const prompt = createImagePrompt(character);
+    
+    // Add negative prompts to reduce errors
+    const enhancedPrompt = prompt + ', single person, correct anatomy, two hands, two arms, two legs, proper proportions, realistic hands, realistic fingers, high quality, masterpiece, professional art';
+    
+    const negativePrompt = 'extra limbs, three hands, four arms, deformed, ugly, bad anatomy, extra fingers, mutated hands, poorly drawn hands, poorly drawn face, mutation, deformed, blurry, bad proportions, extra legs, disfigured, missing arms, missing legs';
 
-            try {
-                const encodedPrompt = encodeURIComponent(prompt);
-                const seed = Math.floor(Math.random() * 1000000);
-                const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=768&height=1024&seed=${seed}&nologo=true`;
-                
-                await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+        const encodedPrompt = encodeURIComponent(enhancedPrompt);
+        const encodedNegative = encodeURIComponent(negativePrompt);
+        const seed = Math.floor(Math.random() * 1000000);
+        
+        // Pollinations.ai with negative prompt
+        const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=768&height=1024&seed=${seed}&nologo=true&negative=${encodedNegative}`;
+        
+        await new Promise(resolve => setTimeout(resolve, 2000));
 
-                const img = document.createElement('img');
-                img.src = imageUrl;
-                img.alt = `${character.name} portrait`;
-                
-                img.onload = () => {
-                    portraitContainer.innerHTML = '';
-                    portraitContainer.appendChild(img);
-                    loadingSpinner.classList.remove('active');
-                    portraitContainer.appendChild(loadingSpinner);
-                };
+        const img = document.createElement('img');
+        img.src = imageUrl;
+        img.alt = `${character.name} portrait`;
+        
+        img.onload = () => {
+            portraitContainer.innerHTML = '';
+            portraitContainer.appendChild(img);
+            loadingSpinner.classList.remove('active');
+            portraitContainer.appendChild(loadingSpinner);
+        };
 
-                img.onerror = () => {
-                    loadingSpinner.classList.remove('active');
-                    errorMessage.textContent = 'Failed to generate portrait. Please try again.';
-                    errorMessage.classList.add('active');
-                };
+        img.onerror = () => {
+            loadingSpinner.classList.remove('active');
+            errorMessage.textContent = 'Failed to generate portrait. Please try again.';
+            errorMessage.classList.add('active');
+        };
 
-            } catch (error) {
-                loadingSpinner.classList.remove('active');
-                errorMessage.textContent = 'Error generating portrait: ' + error.message;
-                errorMessage.classList.add('active');
-            }
-        }
+    } catch (error) {
+        loadingSpinner.classList.remove('active');
+        errorMessage.textContent = 'Error generating portrait: ' + error.message;
+        errorMessage.classList.add('active');
+    }
+}
 
        async function downloadCharacter() {
     try {
