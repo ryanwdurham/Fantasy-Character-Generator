@@ -6,6 +6,8 @@ The Fantasy Character Creator is an interactive web app that lets users build a 
 Once created, the app generates a custom AI portrait and an auto-written bio, bringing your character to life.
 Perfect for tabletop players, storytellers, writers, and fantasy fans.
 
+Create your Character here:  https://ryanwdurham.github.io/Fantasy-Character-Generator/ 
+
 🌟 Features
 
 🎭 Full Character Customization
