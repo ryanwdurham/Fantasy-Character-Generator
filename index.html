@@ -768,15 +768,29 @@
 
                 <!-- Image Prompt Section -->
                 <div id="imagePromptSection" style="display: none; margin-top: 20px; background: rgba(254,202,87,0.07); border: 1px solid rgba(254,202,87,0.25); border-radius: 12px; padding: 16px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <label style="color: #feca57; font-weight: bold; font-size: 1em;">🖼️ Image Prompt</label>
-                        <div style="display: flex; gap: 8px;">
-                            <button onclick="refreshImagePrompt()" style="padding: 6px 12px; background: linear-gradient(45deg, #48dbfb, #0abde3); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.8em; font-weight: bold;">🔄 Refresh</button>
-                            <button onclick="copyImagePrompt()" style="padding: 6px 12px; background: rgba(255,255,255,0.1); color: #e0e0e0; border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; cursor: pointer; font-size: 0.8em;">📋 Copy</button>
+                    
+                    <!-- How-to instructions -->
+                    <div style="background: rgba(72,219,251,0.08); border: 1px solid rgba(72,219,251,0.2); border-left: 4px solid #48dbfb; border-radius: 8px; padding: 14px; margin-bottom: 14px;">
+                        <div style="color: #48dbfb; font-weight: bold; font-size: 0.95em; margin-bottom: 10px;">🖼️ How to create your character portrait:</div>
+                        <div style="color: #c8c8c8; font-size: 0.85em; line-height: 1.8;">
+                            <div style="margin-bottom: 6px;"><span style="color: #feca57; font-weight: bold;">Step 1 —</span> Click <strong style="color: #fff;">🔄 Refresh</strong> below to generate a detailed prompt from your current character settings.</div>
+                            <div style="margin-bottom: 6px;"><span style="color: #feca57; font-weight: bold;">Step 2 —</span> Add any extra details you want, or leave it as-is.</div>
+                            <div style="margin-bottom: 6px;"><span style="color: #feca57; font-weight: bold;">Step 3 —</span> Click <strong style="color: #fff;">📋 Copy Prompt</strong> to copy it to your clipboard.</div>
+                            <div style="margin-bottom: 6px;"><span style="color: #feca57; font-weight: bold;">Step 4 —</span> Paste it into an AI image generator — <strong style="color: #fff;">ChatGPT</strong>, <strong style="color: #fff;">Gemini</strong>, <strong style="color: #fff;">Midjourney</strong>, <strong style="color: #fff;">Adobe Firefly</strong>, or any other tool you prefer.</div>
+                            <div><span style="color: #feca57; font-weight: bold;">Step 5 —</span> Save the generated image, then click <strong style="color: #ff9ff3;">📤 Upload Image</strong> below to add it to your character card.</div>
                         </div>
                     </div>
-                    <textarea id="customImagePrompt" style="width: 100%; padding: 12px; background: rgba(0,0,0,0.5); border: 1px solid rgba(254,202,87,0.3); border-radius: 8px; color: #e0e0e0; font-size: 0.82em; resize: vertical; min-height: 160px; line-height: 1.5; font-family: inherit;" placeholder="Click '🔄 Refresh' to generate the prompt from your current character settings, or type a custom prompt here..."></textarea>
-                    <p style="color: #a0a0a0; font-size: 0.82em; margin-top: 6px;">✏️ Edit freely — this exact text will be sent to the image generator when you click Create Character.</p>
+
+                    <!-- Prompt label + buttons -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <label style="color: #feca57; font-weight: bold; font-size: 0.95em;">✨ Your Character's Image Prompt</label>
+                        <div style="display: flex; gap: 8px;">
+                            <button onclick="refreshImagePrompt()" style="padding: 6px 14px; background: linear-gradient(45deg, #48dbfb, #0abde3); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.8em; font-weight: bold;">🔄 Refresh</button>
+                            <button onclick="copyImagePrompt()" style="padding: 6px 14px; background: linear-gradient(45deg, #feca57, #ff9ff3); color: #1a1a2e; border: none; border-radius: 6px; cursor: pointer; font-size: 0.8em; font-weight: bold;">📋 Copy Prompt</button>
+                        </div>
+                    </div>
+                    <textarea id="customImagePrompt" style="width: 100%; padding: 12px; background: rgba(0,0,0,0.5); border: 1px solid rgba(254,202,87,0.3); border-radius: 8px; color: #e0e0e0; font-size: 0.82em; resize: vertical; min-height: 160px; line-height: 1.5; font-family: inherit;" placeholder="Click '🔄 Refresh' to generate your character's image prompt, then copy and paste it into ChatGPT, Gemini, Midjourney, or your preferred AI image generator."></textarea>
+                    <p style="color: #888; font-size: 0.8em; margin-top: 8px; text-align: center;">💡 Tip — once you've generated your image, use <strong style="color: #ff9ff3;">📤 Upload Image</strong> to attach it to your character card.</p>
                 </div>
 
                 <!-- Upload Image Section -->
